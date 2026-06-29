@@ -31,10 +31,20 @@ export function NotificationsPage() {
     setPage(newPage);
   };
 
+  const priority = {
+    Placement: 1,
+    Result: 2,
+    Event: 3,
+  };
+
   const filteredNotifications =
     filter === "All"
-      ? notifications
-      : notifications.filter((n) => n.Type === filter);
+      ? [...notifications]
+          .sort((a, b) => priority[a.Type] - priority[b.Type])
+          .slice(0, 10)
+      : notifications
+          .filter((n) => n.Type === filter)
+          .slice(0, 10);
 
   return (
     <Box sx={{ maxWidth: 720, mx: "auto", px: 2, py: 4 }}>
